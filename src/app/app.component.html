@@ -49,6 +49,12 @@
   sit amet.
 </p>
 
+<ng-template #container></ng-template>
+
+<button (click)="load()">
+  Load
+</button>
+
 <div #wrapper>
   <app-hello *appVisibleWith="wrapper"></app-hello>
 </div>
