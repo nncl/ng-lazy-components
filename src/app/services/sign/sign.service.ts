@@ -1,23 +1,40 @@
 import { Injectable } from '@angular/core';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
+import { SocialAuthServiceConfig } from "angularx-social-login/socialauth.service";
+
+const config: SocialAuthServiceConfig = {
+  autoLogin: false,
+  onError(err): void {
+    throw err;
+  },
+  providers: [
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider(
+        'clientId'
+      )
+    },
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider('clientId')
+    }
+  ]
+};
 
 @Injectable({
   providedIn: 'root'
 })
-export class SignService {
+export class SignService extends SocialAuthService {
 
-  constructor(private authService: SocialAuthService) {
+  constructor() {
+    super(config);
   }
 
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
-
-  signOut(): void {
-    this.authService.signOut();
+    this.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 }
